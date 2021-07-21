@@ -1,14 +1,15 @@
 import "./App.css";
 import React from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "./pages";
 
 function App() {
 	return (
-		<React.Fragment>
-			<Header />
-			<Footer />
-		</React.Fragment>
+		<Router>
+			<Switch>
+				<Route path='/' component={Home} exact />
+			</Switch>
+		</Router>
 	);
 }
 

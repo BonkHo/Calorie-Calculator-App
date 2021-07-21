@@ -1,11 +1,19 @@
-import React from 'react'
+import React from "react";
+import {
+	HeaderContainer,
+	AboutLink,
+	HeaderLogo,
+	SignInLink,
+} from "./HeaderElements";
 
 const Header = () => {
-    return (
-        <div className="header">
-            
-        </div>
-    )
-}
+	return (
+		<HeaderContainer>
+			<AboutLink to='/'>About</AboutLink>
+			<HeaderLogo to='/'>Calor.io</HeaderLogo>
+			<SignInLink to='/'>Sign In</SignInLink>
+		</HeaderContainer>
+	);
+};
 
-export default Header
+export default Header;
