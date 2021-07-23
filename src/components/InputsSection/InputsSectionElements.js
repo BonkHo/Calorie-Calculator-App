@@ -63,4 +63,5 @@ export const FormSubmitButton = styled.button`
     border-radius: 2px;
     border: 0.1em solid grey;
     white-space: normal;
+    cursor: pointer;
 `;

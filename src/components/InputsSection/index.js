@@ -93,7 +93,9 @@ const InputSection = () => {
                     ></FormInputWeight>
                     <FormLabel for="height-inch">Lbs</FormLabel>
                 </FormInputsWrapper>
-                <FormSubmitButton>Calculate Calories</FormSubmitButton>
+                <FormSubmitButton onClick="#">
+                    Calculate Calories
+                </FormSubmitButton>
             </FormInputsContainer>
         </InputSectionContainer>
     );
