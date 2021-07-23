@@ -65,3 +65,9 @@ export const FormSubmitButton = styled.button`
     white-space: normal;
     cursor: pointer;
 `;
+
+export const FormOutputContainer = styled.div``;
+
+export const FormOutput = styled.h1`
+    padding-top: 1em;
+`;
