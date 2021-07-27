@@ -60,7 +60,7 @@ export const FormSubmitButton = styled.button`
     padding: 0.25em;
     width: auto;
     place-self: center;
-    border-radius: 2px;
+    border-radius: 5px;
     border: 0.1em solid grey;
     white-space: normal;
     cursor: pointer;
