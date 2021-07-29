@@ -8,6 +8,7 @@ import {
     FormInputRadio,
     FormInputsWrapper,
     FormLabel,
+    FormInputAge,
     FormInputHeight,
     FormInputWeight,
     FormSubmitButton,
@@ -17,15 +18,6 @@ import {
 
 const InputSection = () => {
     function calculateCalories() {
-        // Checks and stores age value
-        let age = null;
-        document.getElementsByName("age").forEach((radio) => {
-            if (radio.checked) {
-                age = radio.value;
-            }
-        });
-        console.log("age: " + age);
-
         // Checks and stores gender value
         let gender = null;
         document.getElementsByName("gender").forEach((radio) => {
@@ -35,44 +27,60 @@ const InputSection = () => {
         });
         console.log("gender: " + gender);
 
+        // Checks and stores activity level
+        let activity = null;
+        document.getElementsByName("activity").forEach((radio) => {
+            if (radio.checked) {
+                activity = radio.value;
+            }
+        });
+        console.log("activity: " + activity);
+
+        // Checks and stores age value
+        let age = Number(document.getElementsByName("age")[0].value);
+        console.log("age: " + age);
+
         // Checks and stores height value
         let height =
-            Number(document.getElementsByName("height-feet")[0].value * 12) +
-            Number(document.getElementsByName("height-inch")[0].value);
+            Number(document.getElementsByName("height-feet")[0].value) +
+            Number(document.getElementsByName("height-inch")[0].value / 12);
         console.log("height: " + height);
 
         // Checks and stores weight value
         let weight = Number(document.getElementsByName("weight")[0].value);
         console.log("weight: " + weight);
 
-        // Initialize multiplier and 1% of body weight to lose
-        let multiplier = 1;
+        // Sets the activity multiplier
+        let activityMult = 0;
+        if (activity === "low") {
+            activityMult = 1.3;
+        } else if (activity === "light") {
+            activityMult = 1.5;
+        } else if (activity === "moderate") {
+            activityMult = 1.7;
+        } else if (activity === "active") {
+            activityMult = 1.9;
+        } else if (activity === "extreme") {
+            activityMult = 2.1;
+        }
+
+        // Does calculations based off of BMR
+        let calories = 0;
+        if (gender === "male") {
+            calories = 66 + 6.2 * weight + 12.7 * height - 6.76 * age;
+            calories *= activityMult;
+        } else if (gender === "female") {
+            calories = 655.1 + 4.35 * weight + 4.7 * height - 4.7 * age;
+            calories *= activityMult;
+        }
+
+        // Calculates caloric deficit to lose 1% of weight per week
         let onePercent = (weight * 0.01 * 3500) / 7;
-        let baseCalories = 0;
+        console.log(onePercent);
 
-        // Base amount of calories burned per day by age
-        if (age === "child") {
-            baseCalories = 2300;
-        } else if (age === "young-adult") {
-            baseCalories = 2700;
-        } else if (age === "adult") {
-            baseCalories = 2500;
-        } else if (age === "senior") {
-            baseCalories = 2300;
-        }
-
-        // Multiplier for gender (21% decrease)
-        if (gender === "female") {
-            multiplier -= 0.21;
-        }
-
-        // Multiplier for height (2% per inch)
-        multiplier += height * 0.001;
-        console.log(multiplier);
-
-        let calories = Math.trunc((baseCalories - onePercent) * multiplier);
+        // Returns the amount of calories
         document.getElementById("calories").innerHTML =
-            "Eat " + calories + " Calories per Day 🔥";
+            "Eat " + Math.trunc(calories) + " Calories per Day 🔥";
     }
 
     return (
@@ -81,38 +89,6 @@ const InputSection = () => {
                 Calculates calories to lose 1% of body weight per week.
             </BannerMessage>
             <FormInputsContainer>
-                <FormInputTitle>Age</FormInputTitle>
-                <FormInputs>
-                    <FormInputRadio
-                        type="radio"
-                        name="age"
-                        value="child"
-                        id="child"
-                    ></FormInputRadio>
-                    <FormLabel htmlFor="child">Under 17</FormLabel>
-                    <FormInputRadio
-                        type="radio"
-                        name="age"
-                        value="young-adult"
-                        id="young-adult"
-                    ></FormInputRadio>
-                    <FormLabel htmlFor="young-adult">18-35</FormLabel>
-                    <FormInputRadio
-                        type="radio"
-                        name="age"
-                        value="adult"
-                        id="adult"
-                    ></FormInputRadio>
-                    <FormLabel htmlFor="young-adult">36-55</FormLabel>
-                    <FormInputRadio
-                        type="radio"
-                        name="age"
-                        value="senior"
-                        id="senior"
-                    ></FormInputRadio>
-                    <FormLabel htmlFor="adult">55+</FormLabel>
-                </FormInputs>
-
                 <FormInputTitle>Gender</FormInputTitle>
                 <FormInputs>
                     <FormInputRadio
@@ -129,6 +105,55 @@ const InputSection = () => {
                         id="female"
                     ></FormInputRadio>
                     <FormLabel htmlFor="female">Female</FormLabel>
+                </FormInputs>
+
+                <FormInputTitle>Activity Level</FormInputTitle>
+                <FormInputs>
+                    <FormInputRadio
+                        type="radio"
+                        name="activity"
+                        value="low"
+                        id="low"
+                    ></FormInputRadio>
+                    <FormLabel htmlFor="male">None</FormLabel>
+                    <FormInputRadio
+                        type="radio"
+                        name="activity"
+                        value="light"
+                        id="light"
+                    ></FormInputRadio>
+                    <FormLabel htmlFor="female">1-3 days</FormLabel>
+                    <FormInputRadio
+                        type="radio"
+                        name="activity"
+                        value="moderate"
+                        id="moderate"
+                    ></FormInputRadio>
+                    <FormLabel htmlFor="female">4-5 days</FormLabel>
+                    <FormInputRadio
+                        type="radio"
+                        name="activity"
+                        value="active"
+                        id="active"
+                    ></FormInputRadio>
+                    <FormLabel htmlFor="female">6-7 days</FormLabel>
+                    <FormInputRadio
+                        type="radio"
+                        name="activity"
+                        value="extreme"
+                        id="extreme"
+                    ></FormInputRadio>
+                    <FormLabel htmlFor="female">Extreme</FormLabel>
+                </FormInputs>
+
+                <FormInputTitle>Age</FormInputTitle>
+                <FormInputs>
+                    <FormInputAge
+                        type="text"
+                        name="age"
+                        id="age"
+                    ></FormInputAge>
+                    <FormLabel htmlFor="age"></FormLabel>
                 </FormInputs>
 
                 <FormInputTitle>Height</FormInputTitle>
