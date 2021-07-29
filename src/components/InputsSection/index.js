@@ -89,7 +89,7 @@ const InputSection = () => {
                         value="child"
                         id="child"
                     ></FormInputRadio>
-                    <FormLabel htmlFor="child">0-17</FormLabel>
+                    <FormLabel htmlFor="child">Under 17</FormLabel>
                     <FormInputRadio
                         type="radio"
                         name="age"
