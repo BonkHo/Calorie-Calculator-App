@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import {
-	InputSectionContainer,
-	BannerMessage,
-	FormInputsContainer,
-	FormInputTitle,
-	FormInputs,
-	FormInputRadio,
-	FormInputsWrapper,
-	FormLabel,
-	FormInputAge,
-	FormInputHeight,
-	FormInputWeight,
-	FormSubmitButton,
-	FormOutputContainer,
-	FormOutput,
+    InputSectionContainer,
+    BannerMessage,
+    FormInputsContainer,
+    FormInputTitle,
+    FormInputs,
+    FormInputRadio,
+    FormInputsWrapper,
+    FormLabel,
+    FormInputAge,
+    FormInputHeight,
+    FormInputWeight,
+    FormSubmitButton,
+    FormOutputContainer,
+    FormOutput,
 } from "./InputsSectionElements";
 
 
