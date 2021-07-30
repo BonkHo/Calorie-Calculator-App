@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Home from "./pages";
 import NotFound from "./NotFound";
+import firebase from './firebase'
 
 function App() {
 	return (
