@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     InputSectionContainer,
     BannerMessage,
@@ -15,41 +15,7 @@ import {
     FormOutputContainer,
     FormOutput,
 } from "./InputsSectionElements";
-function calculateCalories(gender, activity, age, height, weight) {
-    let calcHeight = height.feet + height.inch / 12;
 
-    // Sets the activity multiplier
-    let activityMult = 0;
-    if (activity === "low") {
-        activityMult = 1.3;
-    } else if (activity === "light") {
-        activityMult = 1.5;
-    } else if (activity === "moderate") {
-        activityMult = 1.7;
-    } else if (activity === "active") {
-        activityMult = 1.9;
-    } else if (activity === "extreme") {
-        activityMult = 2.1;
-    }
-
-    // Does calculations based off of BMR
-    let calories = 0;
-    if (gender === "male") {
-        calories = 66 + 6.2 * weight + 12.7 * height - 6.76 * age;
-        calories *= activityMult;
-    } else if (gender === "female") {
-        calories = 655.1 + 4.35 * weight + 4.7 * height - 4.7 * age;
-        calories *= activityMult;
-    }
-
-    // Calculates caloric deficit to lose 1% of weight per week
-    let onePercent = (weight * 0.01 * 3500) / 7;
-    console.log(onePercent);
-
-    // Returns the amount of calories
-    document.getElementById("calories").innerHTML =
-        "Eat " + Math.trunc(calories) + " Calories per Day 🔥";
-}
 const InputSection = () => {
     const [gender, setGender] = useState(null);
     const [activity, setActivity] = useState(null);
@@ -58,15 +24,46 @@ const InputSection = () => {
     const [weight, setWeight] = useState(null);
     const [calories, setCalories] = useState(null);
 
-    const heightFeetHandler = (e) => {
-        const _height = { ...height };
-        _height.feet = e.target.value;
-        setHeight(_height);
-    };
+    function calculateCalories() {
+        let calcHeight = height.feet + height.inch / 12;
 
-    const heightInchHandler = (e) => {
-        setHeight({ ...height, inch: e.target.value });
-    };
+        console.log("gender: " + gender);
+        console.log("activity: " + activity);
+        console.log("age: " + age);
+        console.log("height: " + height);
+        console.log("weight: " + weight);
+
+        // Sets the activity multiplier
+        let activityMult = 0;
+        if (activity === "low") {
+            activityMult = 1.3;
+        } else if (activity === "light") {
+            activityMult = 1.5;
+        } else if (activity === "moderate") {
+            activityMult = 1.7;
+        } else if (activity === "active") {
+            activityMult = 1.9;
+        } else if (activity === "extreme") {
+            activityMult = 2.1;
+        }
+
+        // Does calculations based off of BMR
+        let calories = 0;
+        if (gender === "male") {
+            calories = 66 + 6.2 * weight + 12.7 * calcHeight - 6.76 * age;
+            calories *= activityMult;
+        } else if (gender === "female") {
+            calories = 655.1 + 4.35 * weight + 4.7 * calcHeight - 4.7 * age;
+            calories *= activityMult;
+        }
+
+        // Calculates caloric deficit to lose 1% of weight per week
+        let onePercent = (weight * 0.01 * 3500) / 7;
+        console.log(onePercent);
+
+        setCalories(calories);
+    }
+
     return (
         <InputSectionContainer>
             <BannerMessage>
@@ -102,7 +99,7 @@ const InputSection = () => {
                         id="low"
                         onChange={(e) => setActivity(e.target.value)}
                     ></FormInputRadio>
-                    <FormLabel htmlFor="light">None</FormLabel>
+                    <FormLabel htmlFor="low">None</FormLabel>
                     <FormInputRadio
                         type="radio"
                         name="activity"
@@ -110,7 +107,7 @@ const InputSection = () => {
                         id="light"
                         onChange={(e) => setActivity(e.target.value)}
                     ></FormInputRadio>
-                    <FormLabel htmlFor="moderate">1-3 days</FormLabel>
+                    <FormLabel htmlFor="light">1-3 days</FormLabel>
                     <FormInputRadio
                         type="radio"
                         name="activity"
@@ -118,7 +115,7 @@ const InputSection = () => {
                         id="moderate"
                         onChange={(e) => setActivity(e.target.value)}
                     ></FormInputRadio>
-                    <FormLabel htmlFor="active">4-5 days</FormLabel>
+                    <FormLabel htmlFor="moderate">4-5 days</FormLabel>
                     <FormInputRadio
                         type="radio"
                         name="activity"
@@ -126,7 +123,7 @@ const InputSection = () => {
                         id="active"
                         onChange={(e) => setActivity(e.target.value)}
                     ></FormInputRadio>
-                    <FormLabel htmlFor="extreme">6-7 days</FormLabel>
+                    <FormLabel htmlFor="active">6-7 days</FormLabel>
                     <FormInputRadio
                         type="radio"
                         name="activity"
@@ -134,7 +131,7 @@ const InputSection = () => {
                         id="extreme"
                         onChange={(e) => setActivity(e.target.value)}
                     ></FormInputRadio>
-                    <FormLabel htmlFor="female">Extreme</FormLabel>
+                    <FormLabel htmlFor="extreme">Extreme</FormLabel>
                 </FormInputs>
 
                 <FormInputTitle>Age</FormInputTitle>
@@ -143,7 +140,9 @@ const InputSection = () => {
                         type="text"
                         name="age"
                         id="age"
-                        onChange={(e) => setAge(e.target.value)}
+                        onChange={(e) => {
+                            setAge(parseInt(e.target.value));
+                        }}
                     ></FormInputAge>
                     <FormLabel htmlFor="age"></FormLabel>
                 </FormInputs>
@@ -154,14 +153,18 @@ const InputSection = () => {
                         type="text"
                         name="height-feet"
                         id="height-feet"
-                        onChange={heightFeetHandler}
+                        onChange={(e) =>
+                            setHeight({ ...height, feet: e.target.value })
+                        }
                     ></FormInputHeight>
                     <FormLabel htmlFor="height-feet">Feet</FormLabel>
                     <FormInputHeight
                         type="text"
                         name="height-inch"
                         id="height-inch"
-                        onChange={heightInchHandler}
+                        onChange={(e) =>
+                            setHeight({ ...height, inch: e.target.value })
+                        }
                     ></FormInputHeight>
                     <FormLabel htmlFor="height-inch">Inches</FormLabel>
                 </FormInputsWrapper>
@@ -172,25 +175,23 @@ const InputSection = () => {
                         type="text"
                         name="weight"
                         id="weight"
-                        onChange={(e) => setWeight(e.target.value)}
+                        onChange={(e) => {
+                            setWeight(parseInt(e.target.value));
+                        }}
                     ></FormInputWeight>
                     <FormLabel htmlFor="weight">Lbs</FormLabel>
                 </FormInputsWrapper>
 
-                <FormSubmitButton
-                    onClick={calculateCalories(
-                        gender,
-                        activity,
-                        age,
-                        height,
-                        weight
-                    )}
-                >
+                <FormSubmitButton onClick={calculateCalories}>
                     Calculate Calories
                 </FormSubmitButton>
             </FormInputsContainer>
             <FormOutputContainer>
-                <FormOutput id="calories"></FormOutput>
+                {calories && (
+                    <FormOutput id="calories">
+                        Eat {Math.trunc(calories)} Calories per Day 🔥
+                    </FormOutput>
+                )}
             </FormOutputContainer>
         </InputSectionContainer>
     );
