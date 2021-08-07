@@ -5,17 +5,18 @@ import "firebase/firestore";
 import "firebase/database";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyALtXiBtvO2hknskLOhIU-Tj9sWKeo9Ziw",
-    authDomain: "calorie-calculator-app-4778c.firebaseapp.com",
-    projectId: "calorie-calculator-app-4778c",
-    storageBucket: "calorie-calculator-app-4778c.appspot.com",
-    messagingSenderId: "707010966929",
-    appId: "1:707010966929:web:decc1fbdaaf1b2f9679630",
-    measurementId: "G-CBVLHQH3KB",
+	apiKey: "AIzaSyALtXiBtvO2hknskLOhIU-Tj9sWKeo9Ziw",
+	authDomain: "calorie-calculator-app-4778c.firebaseapp.com",
+	projectId: "calorie-calculator-app-4778c",
+	storageBucket: "calorie-calculator-app-4778c.appspot.com",
+	messagingSenderId: "707010966929",
+	appId: "1:707010966929:web:decc1fbdaaf1b2f9679630",
+	measurementId: "G-CBVLHQH3KB",
 };
 
 firebase.initializeApp(firebaseConfig);
 
+// Creating the database
 /* {
 "root": {
     "userData": {
@@ -41,18 +42,21 @@ firebase.initializeApp(firebaseConfig);
 
 // sets a key
 firebase.database().ref("user/1").set({
-    username: "byte_of_code",
-    phrase: "Lets Go",
+	username: "byte_of_code",
+	phrase: "Lets Go",
 });
 
 // get a key
 firebase
-    .database()
-    .ref("user")
-    .get()
-    .then((resp) => {
-        return resp.val();
-    })
-    .then(console.log);
+	.database()
+	.ref("user")
+	.get()
+	.then((resp) => {
+		return resp.val();
+	})
+	.then(console.log);
 
+// Creating the Authentication
+
+export const auth = firebaseConfig.auth;
 export default firebase;
