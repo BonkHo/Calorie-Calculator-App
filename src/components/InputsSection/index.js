@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import firebase from "../../config/firebase";
 import {
     InputSectionContainer,
     BannerMessage,
@@ -61,7 +62,34 @@ const InputSection = () => {
         let onePercent = (weight * 0.01 * 3500) / 7;
         console.log(onePercent);
 
-        setCalories(calories);
+        setCalories(calories - onePercent);
+
+        const userID = 1;
+
+        let userObject = {
+            gender,
+            activity,
+            age,
+            height,
+            weight,
+            calories,
+        };
+
+        firebase
+            .database()
+            .ref("userData/" + userID)
+            .set({
+                ...userObject,
+            });
+
+        firebase
+            .database()
+            .ref("userData/" + userID)
+            .get()
+            .then((resp) => {
+                return resp.val();
+            })
+            .then(console.log);
     }
 
     return (

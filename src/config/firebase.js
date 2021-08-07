@@ -16,17 +16,28 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// {
-//   "root": {
-//     "user": {
-//       "1": {
-//         "username": "byte_of_code",
-//         "phrase": "Lets Go"
-//       }
-//       //... other users
-//     }
-//   }
-// }
+/* {
+"root": {
+    "userData": {
+        "1": {
+            gender,
+            activity,
+        }
+        "2": {
+            gender,
+            activity,
+        }
+    }
+}
+        "user": {
+            "1": {
+                "username": "byte_of_code",
+                "phrase": "Lets Go"
+            }
+        }
+    //... other users
+    }
+} */
 
 // sets a key
 firebase.database().ref("user/1").set({
@@ -37,7 +48,7 @@ firebase.database().ref("user/1").set({
 // get a key
 firebase
     .database()
-    .ref("user/1/username")
+    .ref("user")
     .get()
     .then((resp) => {
         return resp.val();
